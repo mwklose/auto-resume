@@ -1,0 +1,58 @@
+---
+name: Mark
+surname: Klose
+position: Epidemiology PhD Student
+address: Gillings School of Public Health, UNC Chapel Hill
+www: mwklose.netlify.app/
+email: mklose@unc.edu
+twitter: epi_egg
+github: mwklose
+inkedin: markklose17
+date: "`r format(Sys.time(), '%B %Y')`"
+output: 
+  vitae::awesomecv:
+    page_total: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+library(tidyverse)
+library(glue)
+library(readxl)
+
+# Priority for creation
+PRIORITY = 1
+
+# Filepath
+fp <- "/Users/mark/Classes/Personal/Resume/Details.xlsx"
+
+# Handle import xlsx file into table.
+d <- lapply(excel_sheets(fp), function(x) read_excel(fp, sheet=x))
+names(d) = excel_sheets(fp)
+
+```
+
+
+# Education
+
+```{r}
+d$Education %>% 
+  filter(Priority <= PRIORITY) %>%
+  mutate(
+    Degree = ifelse(Dtype != "", glue("{Dtype}, {Dname}"), ""),
+    Year = ifelse(Start == End, glue("{Start}"), glue("{Start}-{End}"))
+  ) %>%
+  detailed_entries(what=Degree, when=Year, with=School, where=Location, why=Priority)
+```
+
+# Positions
+
+
+# Teaching
+
+
+# Talks and Presentations
+
+
+# Awards
